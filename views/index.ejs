@@ -32,10 +32,19 @@
 			/>
 			<button>Submit</button>
 		</form>
+
 		<% } %> <% for (let post of allPosts) { %>
-		<div>
+		<article>
 			<p><strong><%= post.email %></strong> - <%= post.description %></p>
-		</div>
+			<% if (currentUser && currentUser.user_id === post.user_id) { %>
+			<div>
+				<a href="/posts/<%= post.post_id %>">Edit</a>
+				<form method="POST" action="/posts/<%= post.post_id %>?_method=DELETE">
+					<button>Delete</button>
+				</form>
+			</div>
+			<% } %>
+		</article>
 		<% } %>
 	</body>
 </html>
