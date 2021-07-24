@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bcrypt = require("bcrypt");
+const methodOverride = require("method-override");
 const db = require("./db");
 const session = require("express-session");
 const userRoutes = require("./routes/user");
@@ -10,7 +11,9 @@ const LocalStrategy = require("passport-local").Strategy;
 
 app.set("view engine", "ejs");
 
+app.use(methodOverride("_method"));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(
 	session({ secret: "codingnewbie", resave: false, saveUninitialized: true })
 );
@@ -66,7 +69,7 @@ app.use((req, res, next) => {
 app.get("/", async (req, res, next) => {
 	try {
 		const result = await db.query(
-			"SELECT users.email, posts.description FROM posts JOIN users USING (user_id)"
+			"SELECT posts.user_id, posts.post_id, users.email, posts.description FROM posts JOIN users USING (user_id)"
 		);
 		const allPosts = result.rows;
 
