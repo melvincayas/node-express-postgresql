@@ -32,6 +32,10 @@
 			/>
 			<button>Submit</button>
 		</form>
+		<% } %> <% for (let post of allPosts) { %>
+		<div>
+			<p><strong><%= post.email %></strong> - <%= post.description %></p>
+		</div>
 		<% } %>
 	</body>
 </html>

@@ -63,8 +63,17 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.get("/", (req, res) => {
-	res.render("index");
+app.get("/", async (req, res, next) => {
+	try {
+		const result = await db.query(
+			"SELECT users.email, posts.description FROM posts JOIN users USING (user_id)"
+		);
+		const allPosts = result.rows;
+
+		res.render("index", { allPosts });
+	} catch (err) {
+		next(err);
+	}
 });
 
 app.use("/", userRoutes);
