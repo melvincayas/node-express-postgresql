@@ -9,11 +9,18 @@
 	<body>
 		<nav>
 			<a href="/">Home</a>
+			<% if (!currentUser) { %>
 			<a href="/signup">Sign Up</a>
 			<a href="/login">Log In</a>
+			<% } %> <% if (currentUser) { %>
+			<form method="POST" action="/logout">
+				<button>Log Out</button>
+			</form>
+			<%}%>
 		</nav>
 
 		<h1>Welcome to the Home Page!</h1>
+		<h2>You are logged in as: <%= currentUser.email %></h2>
 		<h3>Check the latest posts below!</h3>
 	</body>
 </html>

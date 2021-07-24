@@ -57,8 +57,6 @@ passport.deserializeUser(async (id, done) => {
 });
 
 app.use((req, res, next) => {
-	console.log(req.user);
-	console.log("in locals");
 	res.locals.currentUser = req.user;
 	next();
 });

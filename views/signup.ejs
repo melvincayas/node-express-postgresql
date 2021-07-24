@@ -9,8 +9,14 @@
 	<body>
 		<nav>
 			<a href="/">Home</a>
+			<% if (!currentUser) { %>
 			<a href="/signup">Sign Up</a>
 			<a href="/login">Log In</a>
+			<% } %> <% if (currentUser) { %>
+			<form method="POST" action="/logout">
+				<button>Log Out</button>
+			</form>
+			<%}%>
 		</nav>
 
 		<form method="POST" action="/signup">
