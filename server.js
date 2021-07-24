@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const db = require("./db");
 const session = require("express-session");
 const userRoutes = require("./routes/user");
+const postRoutes = require("./routes/post");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -67,6 +68,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/", userRoutes);
+app.use("/posts", postRoutes);
 
 app.use((err, req, res, next) => {
 	console.log(err);
