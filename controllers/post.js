@@ -41,6 +41,12 @@ module.exports.deletePost = async (req, res, next) => {
 module.exports.editPost = async (req, res, next) => {
 	try {
 		const { id } = req.params;
+		const { description } = req.body;
+
+		await db.query("UPDATE posts SET description = $1 WHERE post_id = $2", [
+			description,
+			id,
+		]);
 
 		res.redirect("/");
 	} catch (err) {
