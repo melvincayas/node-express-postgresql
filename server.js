@@ -20,6 +20,8 @@ app.post("/signup", async (req, res, next) => {
 		const { email, password } = req.body;
 
 		bcrypt.hash(password, 12, async (err, hash) => {
+			if (err) return next(err);
+
 			await db.query(
 				"INSERT INTO users (user_id, email, password) VALUES (uuid_generate_v4(), $1, $2)",
 				[email, hash]
