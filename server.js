@@ -76,13 +76,19 @@ app.post("/signup", async (req, res, next) => {
 		bcrypt.hash(password, 12, async (err, hash) => {
 			if (err) return next(err);
 
-			await db.query(
-				"INSERT INTO users (user_id, email, password) VALUES (uuid_generate_v4(), $1, $2)",
+			const result = await db.query(
+				"INSERT INTO users (user_id, email, password) VALUES (uuid_generate_v4(), $1, $2) RETURNING *",
 				[email, hash]
 			);
-		});
 
-		res.redirect("/");
+			const [newUser] = result.rows;
+
+			req.login(newUser, err => {
+				if (err) return next(err);
+
+				res.redirect("/");
+			});
+		});
 	} catch (err) {
 		next(err);
 	}
