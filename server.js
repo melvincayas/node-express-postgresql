@@ -14,7 +14,11 @@ app.get("/signup", (req, res) => {
 	res.render("signup");
 });
 
-app.post("/signup", (req, res) => {});
+app.post("/signup", (req, res) => {
+	const { email, password } = req.body;
+
+	res.redirect("/");
+});
 
 app.listen(5000, () => {
 	console.log("Now listening on Port 5000!");
