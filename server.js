@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const bcrypt = require("bcrypt");
 const db = require("./db");
 
 app.set("view engine", "ejs");
@@ -14,10 +15,25 @@ app.get("/signup", (req, res) => {
 	res.render("signup");
 });
 
-app.post("/signup", (req, res) => {
-	const { email, password } = req.body;
+app.post("/signup", async (req, res, next) => {
+	try {
+		const { email, password } = req.body;
 
-	res.redirect("/");
+		bcrypt.hash(password, 12, async (err, hash) => {
+			await db.query(
+				"INSERT INTO users (user_id, email, password) VALUES (uuid_generate_v4(), $1, $2)",
+				[email, hash]
+			);
+		});
+
+		res.redirect("/");
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.use((err, req, res, next) => {
+	res.render("error");
 });
 
 app.listen(5000, () => {
