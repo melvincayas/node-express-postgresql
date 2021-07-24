@@ -24,9 +24,14 @@
 
 		<% if (currentUser) { %>
 		<h2>You are logged in as: <%= currentUser.email %></h2>
-		<form method="POST" action="/post"></form>
-		<input type="text" placeholder="What's going on today?" />
-		<button>Submit</button>
+		<form method="POST" action="/posts">
+			<input
+				type="text"
+				name="description"
+				placeholder="What's going on today?"
+			/>
+			<button>Submit</button>
+		</form>
 		<% } %>
 	</body>
 </html>
