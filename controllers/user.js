@@ -1,3 +1,6 @@
+const bcrypt = require("bcrypt");
+const db = require("../db");
+
 module.exports.renderSignUp = (req, res) => {
 	res.render("signup");
 };
