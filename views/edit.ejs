@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Edit Post</title>
+	</head>
+	<body>
+		<nav>
+			<a href="/">Home</a>
+			<% if (!currentUser) { %>
+			<a href="/signup">Sign Up</a>
+			<a href="/login">Log In</a>
+			<% } %> <% if (currentUser) { %>
+			<form method="POST" action="/logout">
+				<button>Log Out</button>
+			</form>
+			<%}%>
+		</nav>
+
+		<form method="POST" action="/posts/<%= postToEdit.post_id %>?_method=PUT">
+			<input
+				type="text"
+				name="description"
+				placeholder="<%= postToEdit.description %>"
+			/>
+			<button>Edit Post</button>
+		</form>
+
+		<a href="/">Go Back</a>
+	</body>
+</html>
