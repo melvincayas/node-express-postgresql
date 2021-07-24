@@ -9,10 +9,6 @@ const LocalStrategy = require("passport-local").Strategy;
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-	res.locals.currentUser = req.user;
-	next();
-});
 app.use(
 	session({ secret: "codingnewbie", resave: false, saveUninitialized: true })
 );
@@ -60,6 +56,13 @@ passport.deserializeUser(async (id, done) => {
 	}
 });
 
+app.use((req, res, next) => {
+	console.log(req.user);
+	console.log("in locals");
+	res.locals.currentUser = req.user;
+	next();
+});
+
 app.get("/", (req, res) => {
 	res.render("index");
 });
@@ -92,8 +95,6 @@ app.get("/login", (req, res) => {
 });
 
 app.post("/login", passport.authenticate("local"), (req, res) => {
-	console.log("you made it here");
-
 	res.redirect("/");
 });
 
