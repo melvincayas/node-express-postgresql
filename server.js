@@ -3,6 +3,7 @@ const app = express();
 const bcrypt = require("bcrypt");
 const db = require("./db");
 const session = require("express-session");
+const userRoutes = require("./routes/user");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 
@@ -12,9 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(
 	session({ secret: "codingnewbie", resave: false, saveUninitialized: true })
 );
+
 app.use(passport.initialize());
 app.use(passport.session());
-
 passport.use(
 	new LocalStrategy(
 		{ usernameField: "email" },
@@ -65,48 +66,7 @@ app.get("/", (req, res) => {
 	res.render("index");
 });
 
-app.get("/signup", (req, res) => {
-	res.render("signup");
-});
-
-app.post("/signup", async (req, res, next) => {
-	try {
-		const { email, password } = req.body;
-
-		bcrypt.hash(password, 12, async (err, hash) => {
-			if (err) return next(err);
-
-			const result = await db.query(
-				"INSERT INTO users (user_id, email, password) VALUES (uuid_generate_v4(), $1, $2) RETURNING *",
-				[email, hash]
-			);
-
-			const [newUser] = result.rows;
-
-			req.login(newUser, err => {
-				if (err) return next(err);
-
-				res.redirect("/");
-			});
-		});
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.get("/login", (req, res) => {
-	res.render("login");
-});
-
-app.post("/login", passport.authenticate("local"), (req, res) => {
-	res.redirect("/");
-});
-
-app.post("/logout", (req, res) => {
-	req.logout();
-
-	res.redirect("/");
-});
+app.use("/", userRoutes);
 
 app.use((err, req, res, next) => {
 	console.log(err);
