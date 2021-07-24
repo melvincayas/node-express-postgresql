@@ -34,6 +34,10 @@ app.post("/signup", async (req, res, next) => {
 	}
 });
 
+app.get("/login", (req, res) => {
+	res.render("login");
+});
+
 app.use((err, req, res, next) => {
 	res.render("error");
 });
