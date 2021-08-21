@@ -58,7 +58,3 @@ git push origin your-improvement
 Melvin Cayas  
 [cayasmj@gmail.com](mailto:cayasmj@gmail.com?subject=[GitHub])  
 [melvincayas.com](https://melvincayas.com/)
-
-Project Link  
-[Live Version](https://my-poster-app.herokuapp.com/)  
-[GitHub](https://github.com/melvincayas/poster)
